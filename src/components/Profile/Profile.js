@@ -11,7 +11,7 @@ export default function Profile() {
 
     return (
         <div>
-            <h1 style={{textAlign: 'center', marginBottom: '20px'}}>Your Profile Info</h1>
+            <h1 style={{ textAlign: 'center', marginBottom: '20px' }}>Your Profile Info</h1>
             <Form name="complex-form" onFinish={onFinish} labelCol={{ span: 8 }} wrapperCol={{ span: 16 }}>
                 <Form.Item label="Username">
                     <Space>
@@ -25,6 +25,17 @@ export default function Profile() {
                         <Tooltip title="Useful information">
                             <Typography.Link href="#API">Need Help?</Typography.Link>
                         </Tooltip>
+                    </Space>
+                </Form.Item>
+                <Form.Item label="Bio">
+                    <Space>
+                        <Form.Item
+                            name="Your Bio"
+                            noStyle
+                            rules={[{ required: false}]}
+                        >
+                            <Input style={{ width: 220 }} placeholder="Write your bio" />
+                        </Form.Item>
                     </Space>
                 </Form.Item>
                 <Form.Item label="Address">
@@ -44,7 +55,7 @@ export default function Profile() {
                             noStyle
                             rules={[{ required: true, message: 'Street is required' }]}
                         >
-                            <Input style={{ width: '50%' }} placeholder="Your City" />
+                            <Input style={{ width: '20%' }} placeholder="Your City" />
                         </Form.Item>
                     </Input.Group>
                 </Form.Item>
@@ -52,16 +63,9 @@ export default function Profile() {
                     <Form.Item
                         name="year"
                         rules={[{ required: true }]}
-                        style={{ display: 'inline-block', width: 'calc(50% - 8px)' }}
+                        style={{ display: 'inline-block', width: 'calc(20% - 8px)' }}
                     >
-                        <Input placeholder="Input birth year" />
-                    </Form.Item>
-                    <Form.Item
-                        name="month"
-                        rules={[{ required: true }]}
-                        style={{ display: 'inline-block', width: 'calc(50% - 8px)', margin: '0 8px' }}
-                    >
-                        <Input placeholder="Input birth month" />
+                        <Input type="date" placeholder="Input birth year" />
                     </Form.Item>
                 </Form.Item>
                 <Form.Item label=" " colon={false}>

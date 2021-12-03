@@ -2,7 +2,7 @@ import React from 'react';
 import { Layout, Menu } from 'antd';
 import './Dashboard.css'
 import Logo from '../../Icons/Logo.svg';
-import Profile from '../../components/Profile/Profile';
+import Posts from '../../components/Posts/Posts';
 
 export default function Dashboard() {
 
@@ -23,7 +23,7 @@ export default function Dashboard() {
                 </Header>
                 <Content className="site-layout" style={{ padding: '0 50px', marginTop: 64 }}>
                     <div className="site-layout-background" style={{ padding: 24, minHeight: 380 }}>
-                        <Profile/>
+                        <Posts/>
                     </div>
                 </Content>
                 <Footer style={{ textAlign: 'center' }}>Friends ©2022 Created by Mak Design</Footer>
