@@ -23,10 +23,10 @@ export default function Dashboard() {
                 </Header>
                 <Content className="site-layout" style={{ padding: '0 50px', marginTop: 64 }}>
                     <div className="site-layout-background" style={{ padding: 24, minHeight: 380 }}>
-                        {Profile} cccc
+                        <Profile/>
                     </div>
                 </Content>
-                <Footer style={{ textAlign: 'center' }}>Friends ©2018 Created by Mak Design</Footer>
+                <Footer style={{ textAlign: 'center' }}>Friends ©2022 Created by Mak Design</Footer>
             </Layout>
         </>
     )
