@@ -1,14 +1,16 @@
 import { initializeApp } from "firebase/app";
+import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyBHYQHHULD0PHDRvKrZvFwoDXHrssa7uXs",
-    authDomain: "friends-88c0c.firebaseapp.com",
-    projectId: "friends-88c0c",
-    storageBucket: "friends-88c0c.appspot.com",
-    messagingSenderId: "115838858031",
-    appId: "1:115838858031:web:d81ecd2e29829f9f55e7da"
-};
+    apiKey: "AIzaSyC9dtnHiWY50coVQjedIwS08azUe9V7RiE",
+    authDomain: "friends-app-3b9e0.firebaseapp.com",
+    projectId: "friends-app-3b9e0",
+    storageBucket: "friends-app-3b9e0.appspot.com",
+    messagingSenderId: "489054163844",
+    appId: "1:489054163844:web:037f06e705c10ba45943d1"
+  };
 
 // Initialize Firebase
 const db = initializeApp(firebaseConfig);
-export default db;
+const storage = getStorage(db);
+export {db , storage}
