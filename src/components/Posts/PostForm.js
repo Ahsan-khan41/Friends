@@ -1,43 +1,47 @@
 import React, { useState } from 'react'
 import { Collapse, Form, Input, Button, Upload } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import db ,{storage}from '../../firebaseConfig';
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { storage } from '../../firebaseConfig';
 
 export const PostForm = () => {
 
     const { Panel } = Collapse;
     // const storage = getStorage(db);
 
-
-    const uploadImg = () => {
-
-        const fileName = postImage.name;
-        const file = postImage.originFileObj;
-        console.log(file);
-
-        // const storageRef = ref(storage, `nhnh`);
-
-        // uploadBytes(storageRef, file).then((snapshot) => {
-        //     console.log(snapshot);
-        // });
-
-    }
-
-
     const onFinish = (values) => {
 
         const file = values.upload[0].originFileObj;
-    
+
         const storageRef1 = ref(storage, `posts/${file.name}`);
 
-        uploadBytes(storageRef1, file).then((snapshot) => {
-            console.log('Post Image Uploaded!');
+        const uploadTask = uploadBytesResumable(storageRef1, file);
 
-            getDownloadURL(ref(storage, ))
-        });
-        console.log(file);
-        // const file = values.upload[0];
+        uploadTask.on('state_changed',
+            (snapshot) => {
+                // Observe state change events such as progress, pause, and resume
+                // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+                const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                console.log('Upload is ' + progress + '% done');
+                switch (snapshot.state) {
+                    case 'paused':
+                        console.log('Upload is paused');
+                        break;
+                    case 'running':
+                        console.log('Upload is running');
+                        break;
+                }
+            },
+            (error) => {
+                console.log(error);
+            },
+            () => {
+                getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                    console.log('File available at', downloadURL);
+                });
+            }
+        );
+
     };
 
     const onFinishFailed = (errorInfo) => {
@@ -53,13 +57,13 @@ export const PostForm = () => {
         return e && e.fileList;
     };
 
-    const [postImage, setPostImage] = useState(null);
+    // const [postImage, setPostImage] = useState(null);
 
-    const handlePost = e => {
-        if (e.target.files[0]) {
-            setPostImage(e.target.files[0]);
-        }
-    }
+    // const handlePost = e => {
+    //     if (e.target.files[0]) {
+    //         setPostImage(e.target.files[0]);
+    //     }
+    // }
 
     return (
         <div>
@@ -100,7 +104,7 @@ export const PostForm = () => {
                             >
                                 <Upload name="post" listType="picture" accept="image/*" multiple={false}
                                     maxCount={2}>
-                                    <Button icon={<UploadOutlined />} onChange={handlePost}>Click to upload</Button>
+                                    <Button icon={<UploadOutlined />}>Click to upload</Button>
                                 </Upload>
                             </Form.Item>
 
