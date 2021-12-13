@@ -13,7 +13,47 @@ function Posts() {
         <>
             <div>
                <PostForm />
-                <div id='posts'>
+                <div id='posts' style={{display: 'flex', flexDirection: 'row'}} >
+                    <Card
+                        style={{ width: 300, margin: 'auto' }}
+                        cover={
+                            <img
+                                alt="example"
+                                src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
+                            />
+                        }
+                        actions={[
+                            <SettingOutlined key="setting" />,
+                            <EditOutlined key="edit" />,
+                            <EllipsisOutlined key="ellipsis" />,
+                        ]}
+                    >
+                        <Meta
+                            avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
+                            title="Card Title"
+                            description="Card Description"
+                        />
+                    </Card>
+                    <Card
+                        style={{ width: 300, margin: 'auto' }}
+                        cover={
+                            <img
+                                alt="example"
+                                src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
+                            />
+                        }
+                        actions={[
+                            <SettingOutlined key="setting" />,
+                            <EditOutlined key="edit" />,
+                            <EllipsisOutlined key="ellipsis" />,
+                        ]}
+                    >
+                        <Meta
+                            avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
+                            title="Card Title"
+                            description="Card Description"
+                        />
+                    </Card>
                     <Card
                         style={{ width: 300, margin: 'auto' }}
                         cover={
