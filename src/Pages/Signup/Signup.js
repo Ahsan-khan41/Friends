@@ -2,11 +2,45 @@ import React from 'react';
 import { Row, Col } from 'antd';
 import { Form, Input, Button, Checkbox } from 'antd';
 import './signup.css'
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { useNavigate } from 'react-router-dom';
 
 function Signup() {
 
+    // const putUserinfoFunc = async() => {
+
+    //     const docRef = await addDoc(collection(db, "cities"), {
+    //         name: "Tokyo",
+    //         country: "Japan"
+    //     });
+    //     console.log("Document written with ID: ", docRef.id);
+
+    // }
+
+    let navigate = useNavigate();
+    const createUserFunc = (values) => {
+        const auth = getAuth();
+        
+        createUserWithEmailAndPassword(auth, values.email, values.password, values.username)
+            .then((userCredential) => {
+                // Signed in 
+                const user = userCredential.user;
+                console.log("success: " + user);
+                navigate("/dashboard");
+                // ...
+            })
+            .catch((error) => {
+                const errorMessage = error.message;
+                console.log(errorMessage);
+                // ..
+            })
+
+    }
+
     const onFinish = (values) => {
         console.log('Success:', values);
+        createUserFunc(values);
+        // putUserinfoFunc(values);
     };
 
     const onFinishFailed = (errorInfo) => {
@@ -48,6 +82,19 @@ function Signup() {
                         </Form.Item>
 
                         <Form.Item
+                            label="Email"
+                            name="email"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: 'Please input your email!',
+                                },
+                            ]}
+                        >
+                            <Input />
+                        </Form.Item>
+
+                        <Form.Item
                             label="Password"
                             name="password"
                             rules={[
@@ -78,7 +125,7 @@ function Signup() {
                             }}
                         >
                             <Button type="primary" htmlType="submit">
-                                
+
                                 Submit
                             </Button>
                         </Form.Item>

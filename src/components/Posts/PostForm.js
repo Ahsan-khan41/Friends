@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Collapse, Form, Input, Button, Upload } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
@@ -30,6 +30,8 @@ export const PostForm = () => {
                     case 'running':
                         console.log('Upload is running');
                         break;
+                    default:
+                        console.log('Uploading in progress');
                 }
             },
             (error) => {

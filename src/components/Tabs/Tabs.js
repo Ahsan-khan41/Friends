@@ -27,7 +27,7 @@ export const Tabs = () => {
                 <TabPane
                     tab={
                         <span>
-                            <Badge count={1}>
+                            <Badge count={2}>
                               Friends  <TeamOutlined />
                             </Badge>
                         </span>

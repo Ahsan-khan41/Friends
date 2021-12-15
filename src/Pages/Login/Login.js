@@ -2,11 +2,32 @@ import React from 'react';
 import { Row, Col } from 'antd';
 import { Form, Input, Button, Checkbox } from 'antd';
 import './login.css'
+import { useNavigate } from 'react-router-dom';
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 function Login() {
 
+    let navigate = useNavigate();
+
+    const loginUserFunc = (values) => {
+        const auth = getAuth();
+        signInWithEmailAndPassword(auth, values.email, values.password)
+            .then((userCredential) => {
+                // Signed in 
+                const user = userCredential.user;
+                console.log(user);
+                navigate("/dashboard");
+                // ...
+            })
+            .catch((error) => {
+                const errorMessage = error.message;
+                console.log(errorMessage);
+            });
+    }
+
     const onFinish = (values) => {
         console.log('Success:', values);
+        loginUserFunc(values);
     };
 
     const onFinishFailed = (errorInfo) => {
@@ -35,12 +56,12 @@ function Login() {
                         <h1 className="heading">Login</h1>
 
                         <Form.Item
-                            label="Username"
-                            name="username"
+                            label="Email"
+                            name="email"
                             rules={[
                                 {
                                     required: true,
-                                    message: 'Please input your username!',
+                                    message: 'Please input your email!',
                                 },
                             ]}
                         >
