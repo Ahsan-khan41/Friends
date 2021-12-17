@@ -5,6 +5,7 @@ import Profile from '../Profile/Profile';
 import Posts from '../Posts/Posts';
 import { Friends } from '../Friends/Friends';
 import './Tabs.css';
+import { Link } from 'react-router-dom';
 
 
 export const Tabs = () => {
@@ -16,7 +17,7 @@ export const Tabs = () => {
                     tab={
                         <span>
                             <Badge count={0}>
-                                Posts <BlockOutlined />
+                               <Link style={{color: "black"}} to="posts"> Posts</Link> <BlockOutlined />
                             </Badge>
                         </span>
                     }
@@ -28,7 +29,7 @@ export const Tabs = () => {
                     tab={
                         <span>
                             <Badge count={2}>
-                              Friends  <TeamOutlined />
+                            <Link style={{color: "black"}} to="friends"> Friends</Link>  <TeamOutlined />
                             </Badge>
                         </span>
                     }
@@ -40,7 +41,7 @@ export const Tabs = () => {
                     tab={
                         <span>
                             <Badge count={0}>
-                               Profile <UserOutlined />
+                            <Link style={{color: "black"}} to="profile">Profile</Link> <UserOutlined />
                             </Badge>
                         </span>
                     }

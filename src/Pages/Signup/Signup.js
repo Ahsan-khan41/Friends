@@ -3,19 +3,9 @@ import { Row, Col } from 'antd';
 import { Form, Input, Button, Checkbox } from 'antd';
 import './signup.css'
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 function Signup() {
-
-    // const putUserinfoFunc = async() => {
-
-    //     const docRef = await addDoc(collection(db, "cities"), {
-    //         name: "Tokyo",
-    //         country: "Japan"
-    //     });
-    //     console.log("Document written with ID: ", docRef.id);
-
-    // }
 
     let navigate = useNavigate();
     const createUserFunc = (values) => {
@@ -125,10 +115,13 @@ function Signup() {
                             }}
                         >
                             <Button type="primary" htmlType="submit">
-
-                                Submit
+                                Signup
+                            </Button>
+                            <Button style={{marginLeft: 30}}>
+                               <Link to="login">SignIn</Link>
                             </Button>
                         </Form.Item>
+                        
                     </Form>
                 </Col>
             </Row>

@@ -2,7 +2,7 @@ import React from 'react';
 import { Row, Col } from 'antd';
 import { Form, Input, Button, Checkbox } from 'antd';
 import './login.css'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 function Login() {
@@ -100,6 +100,9 @@ function Login() {
                         >
                             <Button type="primary" htmlType="submit">
                                 Submit
+                            </Button>
+                            <Button style={{marginLeft: 30}}>
+                            <Link to="/">SignUp</Link>
                             </Button>
                         </Form.Item>
                     </Form>

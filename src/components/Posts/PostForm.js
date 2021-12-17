@@ -2,37 +2,34 @@ import React from 'react'
 import { Collapse, Form, Input, Button, Upload } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import { storage } from '../../firebaseConfig';
+import { fireDB, storage } from '../../firebaseConfig';
+import { collection, addDoc } from "firebase/firestore";
 
 export const PostForm = () => {
 
     const { Panel } = Collapse;
     // const storage = getStorage(db);
 
+    const FormData = async (values, downloadURL) => {
+        const docRef = await addDoc(collection(fireDB, "posts"), {
+            postTitle: values.postTitle,
+            description: values.description,
+            url: downloadURL
+        })
+        console.log("Document written with ID: ", docRef.id);
+    }
+
     const onFinish = (values) => {
 
-        const file = values.upload[0].originFileObj;
-
+        const file = values.imageUrl[0].originFileObj;
         const storageRef1 = ref(storage, `posts/${file.name}`);
-
         const uploadTask = uploadBytesResumable(storageRef1, file);
-
         uploadTask.on('state_changed',
             (snapshot) => {
                 // Observe state change events such as progress, pause, and resume
                 // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
                 const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
                 console.log('Upload is ' + progress + '% done');
-                switch (snapshot.state) {
-                    case 'paused':
-                        console.log('Upload is paused');
-                        break;
-                    case 'running':
-                        console.log('Upload is running');
-                        break;
-                    default:
-                        console.log('Uploading in progress');
-                }
             },
             (error) => {
                 console.log(error);
@@ -40,6 +37,9 @@ export const PostForm = () => {
             () => {
                 getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
                     console.log('File available at', downloadURL);
+                    console.log(values);
+                    FormData(values, downloadURL ); //  put data to firebase
+                    
                 });
             }
         );
@@ -59,14 +59,6 @@ export const PostForm = () => {
         return e && e.fileList;
     };
 
-    // const [postImage, setPostImage] = useState(null);
-
-    // const handlePost = e => {
-    //     if (e.target.files[0]) {
-    //         setPostImage(e.target.files[0]);
-    //     }
-    // }
-
     return (
         <div>
             <div style={{ marginBottom: 30 }}>
@@ -83,7 +75,7 @@ export const PostForm = () => {
                         >
                             <Form.Item
                                 label="Post Title"
-                                name="post title"
+                                name="postTitle"
                                 rules={[{ required: true, message: 'Please input post title!' }]}
                             >
                                 <Input />
@@ -99,7 +91,7 @@ export const PostForm = () => {
 
                             <Form.Item
                                 wrapperCol={{ offset: 0, span: 24 }}
-                                name="upload"
+                                name="imageUrl"
                                 label="Upload Image"
                                 valuePropName="fileList"
                                 getValueFromEvent={normFile}

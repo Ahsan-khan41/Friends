@@ -1,13 +1,12 @@
 import React from 'react'
 
+export const PhotoUpload = (values) => {
 
-export const PhotoUpload = () => {
-
-
+ 
 
     return (
         <div>
-            
+
         </div>
     )
 }
