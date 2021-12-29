@@ -49,6 +49,7 @@ export const Tabs = () => {
                 >
                     <Profile />
                 </TabPane>
+                
 
             </AntTabs>
         </div>

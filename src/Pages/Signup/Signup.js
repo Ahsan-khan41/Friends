@@ -4,33 +4,39 @@ import { Form, Input, Button, Checkbox } from 'antd';
 import './signup.css'
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { useNavigate, Link } from 'react-router-dom';
+import { setDoc, doc } from "firebase/firestore";
+import { fireDB } from '../../firebaseConfig';
 
 function Signup() {
 
+    const auth = getAuth();
     let navigate = useNavigate();
-    const createUserFunc = (values) => {
-        const auth = getAuth();
-        
-        createUserWithEmailAndPassword(auth, values.email, values.password, values.username)
-            .then((userCredential) => {
-                // Signed in 
-                const user = userCredential.user;
-                console.log("success: " + user);
-                navigate("/dashboard");
-                // ...
-            })
-            .catch((error) => {
-                const errorMessage = error.message;
-                console.log(errorMessage);
-                // ..
-            })
-
-    }
 
     const onFinish = (values) => {
+
+        console.log(values);
+        createUserWithEmailAndPassword(auth, values.email, values.password)
+            .then((userCredential) => {
+                // Signed in
+                const user = userCredential.user;
+                console.log(user);
+                user.displayName = values.username
+                setDoc(doc(fireDB, "users", user.uid), {
+                    name: values.username,
+                    email: values.email,
+                    uid: user.uid
+                }).then(() => {
+
+                    navigate("/dashboard");
+                    window.location.reload(false);
+                })
+
+            })
+            .catch((error) => {
+                console.log('error: ', error);
+            });
+
         console.log('Success:', values);
-        createUserFunc(values);
-        // putUserinfoFunc(values);
     };
 
     const onFinishFailed = (errorInfo) => {
@@ -117,11 +123,11 @@ function Signup() {
                             <Button type="primary" htmlType="submit">
                                 Signup
                             </Button>
-                            <Button style={{marginLeft: 30}}>
-                               <Link to="login">SignIn</Link>
+                            <Button style={{ marginLeft: 30 }}>
+                                <Link to="login">SignIn</Link>
                             </Button>
                         </Form.Item>
-                        
+
                     </Form>
                 </Col>
             </Row>
