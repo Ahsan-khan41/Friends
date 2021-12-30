@@ -1,18 +1,23 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import { Collapse, Form, Input, Button, Upload } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { fireDB, storage } from '../../firebaseConfig';
 import { collection, addDoc } from "firebase/firestore";
+import CurrentUserContext from './../../ContextAPI/CurrentUserContext';
 
 export const PostForm = () => {
 
     const { Panel } = Collapse;
     // const storage = getStorage(db);
 
-    const FormData = async (values, downloadURL) => {
+    const currentUserInfo = useContext(CurrentUserContext);
+    console.log(currentUserInfo.uid);
+
+    const dataHandler = async (values, downloadURL) => {
         const docRef = await addDoc(collection(fireDB, "posts"), {
-            postTitle: values.postTitle,
+            
+            postedBy: currentUserInfo.uid,
             description: values.description,
             url: downloadURL
         })
@@ -38,11 +43,11 @@ export const PostForm = () => {
                 getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
                     console.log('File available at', downloadURL);
                     console.log(values);
-                    FormData(values, downloadURL ); //  put data to firebase
-                    
+                    dataHandler(values, downloadURL ); //  Handler putting data to firebase
                 });
             }
         );
+
 
     };
 
@@ -73,14 +78,6 @@ export const PostForm = () => {
                             onFinishFailed={onFinishFailed}
                             autoComplete="off"
                         >
-                            <Form.Item
-                                label="Post Title"
-                                name="postTitle"
-                                rules={[{ required: true, message: 'Please input post title!' }]}
-                            >
-                                <Input />
-                            </Form.Item>
-
                             <Form.Item
                                 label="Description"
                                 name="description"

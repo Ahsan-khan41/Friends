@@ -1,13 +1,10 @@
 #components-layout-demo-fixed .logo {
-    float: left;
-    width: 120px;
-    height: 31px;
-    margin: 16px 24px 16px 0;
+   
     background: rgba(255, 255, 255, 0.2);
 }
 
 .site-layout .site-layout-background {
-    background: rgba(255, 255, 255);
+    background:#f0f2f5;
     border-radius: 10px ;
 }
 
@@ -24,3 +21,10 @@
 .ant-layout-header {
     margin-bottom: 20px;
 }
+
+.ant-tabs-nav-wrap{
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 5px
+}
+

@@ -1,39 +1,18 @@
-import React, { useContext, useState, useEffect } from 'react';
-import { Button, Layout } from 'antd';
-import './Dashboard.css'
+import React, { useState, useContext, useEffect } from 'react';
+import { Button, Divider, Layout, Popover, Input, Space } from 'antd';
 import Logo from '../../Icons/Logo.svg';
 import { Tabs } from '../../components/Tabs/Tabs';
-import CurrentUserContext from '../../ContextAPI/CurrentUserContext';
 import { getAuth, signOut } from "firebase/auth";
 import { useNavigate } from 'react-router-dom';
+import CurrentUserContext from './../../ContextAPI/CurrentUserContext';
 import { doc, onSnapshot } from "firebase/firestore";
 import { fireDB } from '../../firebaseConfig';
-
+import './Dashboard.css'
 
 export default function Dashboard() {
 
-    const [userUid, setUserUid] = useState();
-    const currentUserInfo = useContext(CurrentUserContext);
-    console.log(currentUserInfo);
-
-    useEffect(() => {
-
-        onSnapshot(doc(fireDB, "users", `${currentUserInfo.uid}`), (doc) => {
-            const data = doc.data();
-            if (undefined ?? data) { // nullish operator ??
-                console.log("if");
-                setUserUid(data.name);
-            } else {
-                // console.log("else");
-            }
-        })
-
-    }, [currentUserInfo])
-
-    const { Header, Content, Footer } = Layout;
 
     let navigate = useNavigate();
-
     const signOutFunc = () => {
         const auth = getAuth();
         signOut(auth).then(() => {
@@ -47,16 +26,60 @@ export default function Dashboard() {
 
     }
 
+    const { Search } = Input;
+    const onSearch = value => console.log(value);
+
+    const [data, setData] = useState(' ')
+
+    const currentUserInfo = useContext(CurrentUserContext);
+    console.log(currentUserInfo);
+
+    useEffect(() => {
+
+        onSnapshot(doc(fireDB, "users", `${currentUserInfo.uid}`), (doc) => {
+            //console.log("Current data: ", doc.data());
+            const userInfo = doc.data();
+            if (undefined ?? userInfo) { // nullish operator ??
+                console.log("if");
+                setData(userInfo);
+            } else {
+                // loader...
+            }
+
+        });
+
+    }, [currentUserInfo])
+
+
+    const content = (
+        <div style={{ textAlign: 'center', width: '300px', margin: '10px' }}>
+            <img style={{ width: '80px', marginBottom: '10px', borderRadius: '100px' }}
+                src={currentUserInfo.profileUrl} /><br />
+            <span style={{ size: 25, fontWeight: '500' }}>{data.name}</span><br />
+            <span style={{ size: 20, margin: '20px' }}>{data.email}</span><br />
+            <Button style={{ borderRadius: 25, marginTop: '10px' }}><p style={{ size: 15 }}>Manage your Account</p></Button>
+            <Divider />
+            <Button style={{ borderRadius: 5 }} onClick={signOutFunc}>Sign out</Button>
+        </div>
+    );
+
+
+    const { Header, Content, Footer } = Layout;
+
     return (
         <>
             <Layout>
                 <Header style={{ background: '#fff', zIndex: 1, width: '100%' }}>
-                    <div className="logo">
-                        <img src={Logo} alt='friends-logo' />
-                        <span style={{ float: 'right' }}> <p>Hello <span style={{ fontWeight: 'bold' }}>{userUid}</span> </p>
-                            <input style={{height: '30px' }} placeholder='Search user here' />
-                            <Button type='primary' style={{ marginRight: '20px', marginLeft: '20px' }}>Search</Button>
-                            <Button onClick={signOutFunc} >Log Out</Button>
+                    <div className="logo" style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}} >
+                        <span><img src={Logo} alt='friends-logo' /></span>
+                        <span style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
+                            <Search placeholder="search accounts here" allowClear onSearch={onSearch} enterButton  />
+                        </span>
+                        <span>
+                            <Popover content={content} trigger="click">
+                                <span style={{ borderRadius: '100%' }}><img style={{ width: '40px', borderRadius: '100px', marginLeft: 20 }}
+                                    src={currentUserInfo.profileUrl} /></span>
+                            </Popover>
                         </span>
                     </div>
 

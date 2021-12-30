@@ -1,79 +1,67 @@
-import React from 'react'
-import { Form, Input, Select, Tooltip, Button, Space, Typography } from 'antd';
+import React, { useContext, useState, useEffect } from 'react';
+import { doc, onSnapshot } from "firebase/firestore";
+import { fireDB } from '../../firebaseConfig';
+import CurrentUserContext from '../../ContextAPI/CurrentUserContext';
+import { Divider, Tabs } from 'antd'
+import './Profile.css'
+import { Setting } from './Setting/Setting';
+
+
 
 export default function Profile() {
 
-    const onFinish = values => {
-        console.log('Received values of form: ', values);
-    };
+    const { TabPane } = Tabs;
+    function callback(key) {
+        console.log(key);
+    }
 
-    const { Option } = Select;
+    const [userName, setUserName] = useState();
+
+    const currentUserInfo = useContext(CurrentUserContext);
+    console.log(currentUserInfo);
+
+    useEffect(() => {
+
+        onSnapshot(doc(fireDB, "users", `${currentUserInfo.uid}`), (doc) => {
+            const data = doc.data();
+            if (undefined ?? data) { // nullish operator ??
+                console.log("if");
+                setUserName(data.name);
+            } else {
+                // console.log("else");
+            }
+        })
+
+    }, [currentUserInfo])
 
     return (
-        <div>
-            <h1 style={{ textAlign: 'center', marginBottom: '20px' }}>Your Profile Info</h1>
-            <Form name="complex-form" onFinish={onFinish} labelCol={{ span: 8 }} wrapperCol={{ span: 16 }}>
-                <Form.Item label="Username">
-                    <Space>
-                        <Form.Item
-                            name="username"
-                            noStyle
-                            rules={[{ required: true, message: 'Username is required' }]}
-                        >
-                            <Input style={{ width: 160 }} placeholder="Please input" />
-                        </Form.Item>
-                        <Tooltip title="Useful information">
-                            <Typography.Link href="#API">Need Help?</Typography.Link>
-                        </Tooltip>
-                    </Space>
-                </Form.Item>
-                <Form.Item label="Bio">
-                    <Space>
-                        <Form.Item
-                            name="Your Bio"
-                            noStyle
-                            rules={[{ required: false}]}
-                        >
-                            <Input style={{ width: 220 }} placeholder="Write your bio" />
-                        </Form.Item>
-                    </Space>
-                </Form.Item>
-                <Form.Item label="Address">
-                    <Input.Group compact>
-                        <Form.Item
-                            name={['address', 'province']}
-                            noStyle
-                            rules={[{ required: true, message: 'Province is required' }]}
-                        >
-                            <Select placeholder="Select province">
-                                <Option value="Sindh">Sindh</Option>
-                                <Option value="Punjab">Punjab</Option>
-                            </Select>
-                        </Form.Item>
-                        <Form.Item
-                            name={['address', 'street']}
-                            noStyle
-                            rules={[{ required: true, message: 'Street is required' }]}
-                        >
-                            <Input style={{ width: '20%' }} placeholder="Your City" />
-                        </Form.Item>
-                    </Input.Group>
-                </Form.Item>
-                <Form.Item label="BirthDate" style={{ marginBottom: 0 }}>
-                    <Form.Item
-                        name="year"
-                        rules={[{ required: true }]}
-                        style={{ display: 'inline-block', width: 'calc(20% - 8px)' }}
-                    >
-                        <Input type="date" placeholder="Input birth year" />
-                    </Form.Item>
-                </Form.Item>
-                <Form.Item label=" " colon={false}>
-                    <Button type="primary" htmlType="submit">
-                        Update
-                    </Button>
-                </Form.Item>
-            </Form>
-        </div>
+        <>
+            <div style={{ display: 'flex', justifyContent: 'center', textAlign: 'center', marginTop: '40px' }}>
+                {/* Profile Pic */}
+                <div style={{ display: 'inline-block' }}>
+                   <img src={currentUserInfo.profileUrl}
+                        style={{ borderRadius: '100%', width: '170px' }} />
+                </div>
+
+                <div style={{ display: 'inline-block', textAlign: 'left', marginLeft: 100, maxWidth: '350px' }}>
+                    <p style={{ fontSize: '35px' }}>{userName}</p>
+                    <span style={{ fontSize: '15px' }}><b>2  </b>Posts</span><span style={{ marginLeft: 10, fontSize: '15px' }}><b>10  </b>followers</span>
+                    <Divider />
+                    <p style={{ marginTop: 10, fontSize: '16px' }}>Bio Lorem Ipsum dolor sit amit Lorem Ipsum
+                        dolor sit amit Lorem Ipsum dit amit Lorem Ipsum dolor sit amit</p>
+                </div>
+
+            </div>
+            <Divider style={{ margin: 5 }} />
+            <Tabs id='bottom-tabs' defaultActiveKey="1" onChange={callback}>
+                <TabPane tab="Posts" key="1">
+                    Posts
+                </TabPane>
+
+                <TabPane tab="Setting" key="2">
+                    <Setting />
+                </TabPane>
+            </Tabs>
+        </>
     )
 }

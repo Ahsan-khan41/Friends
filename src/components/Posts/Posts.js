@@ -1,25 +1,44 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Card, Avatar } from 'antd';
 import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
 import { PostForm } from "./PostForm";
-
+import { collection, onSnapshot } from "firebase/firestore";
+import { fireDB } from '../../firebaseConfig'
 
 function Posts() {
 
     const { Meta } = Card;
-    
+    const [postsArr, setPostsArr] = useState([]);
+
+    useEffect(() => {
+
+        onSnapshot(collection(fireDB, "posts"), (doc) => {
+            let arr = [];
+            doc.forEach((element) => {
+                arr.push(element.data());
+            });
+            setPostsArr(arr);
+        });
+        
+    }, [])
+
+    // console.log(postsArr);
+
 
     return (
         <>
+
             <div>
-               <PostForm />
-                <div id='posts' style={{display: 'flex', flexDirection: 'row'}} >
-                    <Card
-                        style={{ width: 300, margin: 'auto' }}
+                <PostForm />
+                <div id='posts' >
+                    {postsArr.map((elem, index) => {
+                        return(
+                            <Card key = {index}
+                        style={{ width: "50%", margin: 'auto', marginBottom: 20, borderRadius: '20px' }}
                         cover={
                             <img
                                 alt="example"
-                                src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
+                                src={elem.url}
                             />
                         }
                         actions={[
@@ -30,50 +49,13 @@ function Posts() {
                     >
                         <Meta
                             avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
-                            title="Card Title"
-                            description="Card Description"
+                            title={elem.postTitle}
+                            description={elem.description}
                         />
                     </Card>
-                    <Card
-                        style={{ width: 300, margin: 'auto' }}
-                        cover={
-                            <img
-                                alt="example"
-                                src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-                            />
-                        }
-                        actions={[
-                            <SettingOutlined key="setting" />,
-                            <EditOutlined key="edit" />,
-                            <EllipsisOutlined key="ellipsis" />,
-                        ]}
-                    >
-                        <Meta
-                            avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
-                            title="Card Title"
-                            description="Card Description"
-                        />
-                    </Card>
-                    <Card
-                        style={{ width: 300, margin: 'auto' }}
-                        cover={
-                            <img
-                                alt="example"
-                                src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-                            />
-                        }
-                        actions={[
-                            <SettingOutlined key="setting" />,
-                            <EditOutlined key="edit" />,
-                            <EllipsisOutlined key="ellipsis" />,
-                        ]}
-                    >
-                        <Meta
-                            avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
-                            title="Card Title"
-                            description="Card Description"
-                        />
-                    </Card>
+                        )
+                    })}
+                    
                 </div>
 
             </div>
