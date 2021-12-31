@@ -3,7 +3,7 @@ import { Collapse, Form, Input, Button, Upload } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { fireDB, storage } from '../../firebaseConfig';
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import CurrentUserContext from './../../ContextAPI/CurrentUserContext';
 
 export const PostForm = () => {
@@ -21,7 +21,8 @@ export const PostForm = () => {
             description: values.description,
             url: downloadURL,
             admin: currentUserInfo.displayName,
-            adminProfile: currentUserInfo.profileUrl
+            adminProfile: currentUserInfo.profileUrl,
+            time: serverTimestamp()
         })
         console.log("Document written with ID: ", docRef.id);
     }
