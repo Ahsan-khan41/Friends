@@ -10,14 +10,6 @@ function Posts() {
     const { Meta } = Card;
     const [postsArr, setPostsArr] = useState([]);
 
-    const dataHandler = (document, arr) => {
-        onSnapshot(doc(fireDB, "users", `${document}`), (doc) => {
-            //console.log("Current data: " , doc.data());
-            arr.push(doc.data());
-            //console.log(arr);
-            setPostsArr(arr);
-        });
-    }
 
     useEffect(() => {
 
@@ -25,8 +17,8 @@ function Posts() {
             let arr = [];
             doc.forEach((elem) => {
                 // console.log(elem.data().postedBy);
-                dataHandler(elem.data().postedBy, arr);
                 arr.push(elem.data());
+                setPostsArr(arr);
             });
         });
 
@@ -57,8 +49,8 @@ function Posts() {
                                 ]}
                             >
                                 <Meta
-                                    avatar={<Avatar src={elem.profileUrl} />}
-                                    title={elem.postedBy}
+                                    avatar={<Avatar src={elem.adminProfile} />}
+                                    title={elem.admin}
                                     description={elem.description}
                                 />
                             </Card>

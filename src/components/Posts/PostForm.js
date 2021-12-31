@@ -1,4 +1,4 @@
-import React, {useContext} from 'react'
+import React, { useContext } from 'react'
 import { Collapse, Form, Input, Button, Upload } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
@@ -12,14 +12,16 @@ export const PostForm = () => {
     // const storage = getStorage(db);
 
     const currentUserInfo = useContext(CurrentUserContext);
-    console.log(currentUserInfo.uid);
+    console.log(currentUserInfo);
 
     const dataHandler = async (values, downloadURL) => {
         const docRef = await addDoc(collection(fireDB, "posts"), {
-            
+
             postedBy: currentUserInfo.uid,
             description: values.description,
-            url: downloadURL
+            url: downloadURL,
+            admin: currentUserInfo.displayName,
+            adminProfile: currentUserInfo.profileUrl
         })
         console.log("Document written with ID: ", docRef.id);
     }
@@ -43,7 +45,7 @@ export const PostForm = () => {
                 getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
                     console.log('File available at', downloadURL);
                     console.log(values);
-                    dataHandler(values, downloadURL ); //  Handler putting data to firebase
+                    dataHandler(values, downloadURL); //  Handler putting data to firebase
                 });
             }
         );
