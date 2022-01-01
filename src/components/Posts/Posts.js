@@ -8,7 +8,7 @@ import { fireDB } from "../../firebaseConfig";
 function Posts() {
   const { Meta } = Card;
   const [postsArr, setPostsArr] = useState([]);
-
+  
   useEffect(() => {
     let arr = [];
     onSnapshot(
@@ -18,11 +18,11 @@ function Posts() {
           //console.log(elem.data());
           arr.push(elem.data());
           setPostsArr(arr);
-          // console.log(arr);
+          
         })
       }
     );
-  }, [setPostsArr]);
+  }, []);
 
   // console.log(postsArr);
 

@@ -29,10 +29,11 @@ export default function Dashboard() {
     const { Search } = Input;
     const onSearch = value => console.log(value);
 
-    const [data, setData] = useState(' ')
+    const [data, setData] = useState(' ');
 
     const currentUserInfo = useContext(CurrentUserContext);
     console.log(currentUserInfo);
+    console.log("dashboard");
 
     useEffect(() => {
 

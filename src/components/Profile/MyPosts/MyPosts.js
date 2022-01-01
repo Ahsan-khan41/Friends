@@ -12,7 +12,6 @@ export const MyPosts = () => {
 
     const currentUserInfo = useContext(CurrentUserContext);
     const [postsArr, setPostsArr] = useState([]);
-    const [myPosts, setMyPosts] = useState(false)
 
     useEffect(() => {
         let arr = [];
@@ -24,11 +23,10 @@ export const MyPosts = () => {
                     arr.push(elem.data());
                     setPostsArr(arr);
                     //console.log(arr.length);
-                    setMyPosts(true)
                 });
             }
         );
-    }, [myPosts]);
+    }, []);
 
     console.log(postsArr);
 
