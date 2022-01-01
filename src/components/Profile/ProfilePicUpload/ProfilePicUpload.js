@@ -1,47 +1,32 @@
-import React, { useContext, useState, useEffect } from 'react'
-import { Form, Button, Upload, Avatar } from 'antd';
-import { UploadOutlined, UserOutlined } from '@ant-design/icons';
+import React, { useContext } from 'react'
+import { Form, Button, Upload, Avatar, message } from 'antd';
+import { UploadOutlined } from '@ant-design/icons';
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { fireDB, storage } from '../../../firebaseConfig';
-import CurrentUserContext from './../../../ContextAPI/CurrentUserContext';
+import CurrentUserContext from '../../../ContextAPI/CurrentUserContext';
 import { doc, updateDoc } from "firebase/firestore";
 
-export const Setting = () => {
+export const ProfilePicUpload = ({pic}) => {
 
     const currentUserInfo = useContext(CurrentUserContext);
-    console.log(currentUserInfo);
+    // console.log(currentUserInfo);
 
-    const [profileCheck, setProfileCheck] = useState(false);
+    //const [profileCheck, setProfileCheck] = useState(false);
 
-    useEffect(() => {
+    // useEffect(() => {
 
-        if ('profileUrl' in currentUserInfo ?? setProfileCheck(false)) {
-            console.log('profile pic exists');
-            setProfileCheck(true)
-        }
+    //     if ('profileUrl' in currentUserInfo ?? setProfileCheck(false)) {
+    //         console.log('profile pic exists');
+    //         setProfileCheck(true)
+    //     }
 
-    }, [currentUserInfo])
+    // }, [currentUserInfo])
 
-
-
-    const FormData = async (values, downloadURL) => {
-        // const docRef = await addDoc(collection(fireDB, "posts"), {
-        //     postTitle: values.postTitle,
-        //     description: values.description,
-        //     url: downloadURL
-        // });
-        // await setDoc(doc(fireDB, "users", `${currentUserInfo.uid}`), {
-        //     name: "Los Angeles",
-        //     state: "CA",
-        //     country: "USA"
-        //   });
-        // console.log("Document written with ID: ", docRef.id);
-    }
 
     const onFinish = (values) => {
 
         const file = values.imageUrl[0].originFileObj;
-        const storageRef1 = ref(storage, `posts/${file.name}`);
+        const storageRef1 = ref(storage, `users/${currentUserInfo.uid}/${pic}`);
         const uploadTask = uploadBytesResumable(storageRef1, file);
         uploadTask.on('state_changed',
             (snapshot) => {
@@ -60,14 +45,11 @@ export const Setting = () => {
                     //Adding Profile pic to DataBase
 
                     const userRef = doc(fireDB, "users", `${currentUserInfo.uid}`);
-                    // Set the "capital" field of the city 'DC'
                     updateDoc(userRef, {
                         profileUrl: downloadURL
                     });
-
+                    message.success('success');
                     //console.log(values);
-                    FormData(values, downloadURL); //  put data to firebase
-
                 });
             }
         );
@@ -76,6 +58,7 @@ export const Setting = () => {
     };
 
     const onFinishFailed = (errorInfo) => {
+        message.error('Submit Failed!');
         console.log('Failed:', errorInfo);
     };
 
@@ -91,12 +74,11 @@ export const Setting = () => {
     return (
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <div style={{ display: 'inline-block', textAlign: 'center' }}>
-                {profileCheck ? <img src={currentUserInfo.profileUrl}
-                    style={{ borderRadius: '100%', width: '70px' }} /> : <Avatar icon={<UserOutlined />} />}
+                <Avatar size={64} src={currentUserInfo.profileUrl} />
             </div>
             {/* Form */}
             <Form
-                style={{ margin: 20 }}
+                style={{ margin: 20, textAlign: 'center' }}
                 name="posts-form"
                 labelCol={{ span: 8 }}
                 wrapperCol={{ span: 8 }}
@@ -109,7 +91,6 @@ export const Setting = () => {
                 <Form.Item
                     wrapperCol={{ offset: 0, span: 24 }}
                     name="imageUrl"
-                    label="Upload Image"
                     valuePropName="fileList"
                     getValueFromEvent={normFile}
                 >
@@ -120,7 +101,7 @@ export const Setting = () => {
                 </Form.Item>
 
                 <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-                    <Button type="primary" htmlType="submit" >
+                    <Button type="primary" htmlType="submit" style={{ marginRight: 160}} >
                         Submit
                     </Button>
                 </Form.Item>

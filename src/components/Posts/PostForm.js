@@ -95,6 +95,7 @@ export const PostForm = () => {
                                 label="Upload Image"
                                 valuePropName="fileList"
                                 getValueFromEvent={normFile}
+                                rules={[{ required: false }]}
                             >
                                 <Upload name="post" listType="picture" accept="image/*" multiple={false}
                                     maxCount={2}>

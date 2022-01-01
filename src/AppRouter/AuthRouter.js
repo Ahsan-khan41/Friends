@@ -3,7 +3,7 @@ import Signup from '../Pages/Signup/Signup'
 import Login from '../Pages/Login/Login'
 
 
-function AppRouter() {
+function AuthRouter() {
     return (
         <>
             <BrowserRouter>
@@ -16,4 +16,4 @@ function AppRouter() {
     );
 }
 
-export default AppRouter;
+export default AuthRouter;

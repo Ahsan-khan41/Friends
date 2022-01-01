@@ -1,9 +1,9 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { Button, Divider, Layout, Popover, Input, Space } from 'antd';
+import { Button, Divider, Layout, Popover, Input, Avatar } from 'antd';
 import Logo from '../../Icons/Logo.svg';
 import { Tabs } from '../../components/Tabs/Tabs';
 import { getAuth, signOut } from "firebase/auth";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import CurrentUserContext from './../../ContextAPI/CurrentUserContext';
 import { doc, onSnapshot } from "firebase/firestore";
 import { fireDB } from '../../firebaseConfig';
@@ -53,11 +53,13 @@ export default function Dashboard() {
 
     const content = (
         <div style={{ textAlign: 'center', width: '300px', margin: '10px' }}>
-            <img style={{ width: '80px', marginBottom: '10px', borderRadius: '100px' }}
+            <Avatar size={80} style={{ marginBottom: '10px' }}
                 src={currentUserInfo.profileUrl} /><br />
             <span style={{ size: 25, fontWeight: '500' }}>{data.name}</span><br />
             <span style={{ size: 20, margin: '20px' }}>{data.email}</span><br />
-            <Button style={{ borderRadius: 25, marginTop: '10px' }}><p style={{ size: 15 }}>Manage your Account</p></Button>
+            <Button style={{ borderRadius: 25, marginTop: '10px' }}>
+                <p style={{ size: 15 }}><Link to="profile">Manage your Account</Link></p>
+            </Button>
             <Divider />
             <Button style={{ borderRadius: 5 }} onClick={signOutFunc}>Sign out</Button>
         </div>
@@ -70,14 +72,14 @@ export default function Dashboard() {
         <>
             <Layout>
                 <Header style={{ background: '#fff', zIndex: 1, width: '100%' }}>
-                    <div className="logo" style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}} >
+                    <div className="logo" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }} >
                         <span><img src={Logo} alt='friends-logo' /></span>
                         <span style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
-                            <Search placeholder="search accounts here" allowClear onSearch={onSearch} enterButton  />
+                            <Search placeholder="search accounts here" allowClear onSearch={onSearch} enterButton />
                         </span>
                         <span>
                             <Popover content={content} trigger="click">
-                                <span style={{ borderRadius: '100%' }}><img style={{ width: '40px', borderRadius: '100px', marginLeft: 20 }}
+                                <span style={{ borderRadius: '100%' }}><Avatar size={40} style={{ marginLeft: 20 }}
                                     src={currentUserInfo.profileUrl} /></span>
                             </Popover>
                         </span>

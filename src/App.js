@@ -1,34 +1,34 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import 'antd/dist/antd.css';
 import AppRouter from './AppRouter/AppRouter'
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import CurrentUserContext from '../src/ContextAPI/CurrentUserContext'
 import { doc, onSnapshot } from "firebase/firestore";
 import { fireDB } from './firebaseConfig';
+import CurrentUserContext from './ContextAPI/CurrentUserContext';
 
 
 function App() {
 
-  const [currentUser, setCurrentUser] = useState({});
+  const [firebaseAuth, setFirebaseAuth] = useState(false);
+  const [currentUser, setCurrentUser] = useState({})
 
-  const auth = getAuth();
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      const uid = user.uid;
-      // console.log(user.uid);
-      onSnapshot(doc(fireDB, "users", `${uid}`), (doc) => {
-        const userData = doc.data();
-        user.profileUrl = userData.profileUrl;
-        user.displayName = userData.name;
-        //console.log(user);
-      })
+  useEffect(() => {
 
-      setCurrentUser(user);
-    } else {
-      // User is signed out
-      console.log('user signed out!');
-    }
-  });
+    const auth = getAuth();
+
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setFirebaseAuth(true);
+        setCurrentUser(user)
+        onSnapshot(doc(fireDB, "users", `${user.uid}`), (doc) => {
+          setCurrentUser(doc.data());
+        });
+
+      }
+
+    });
+
+  }, [])
 
   return (
     <div className="center">

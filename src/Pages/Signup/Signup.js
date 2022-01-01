@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Col } from 'antd';
+import { Row, Col, message } from 'antd';
 import { Form, Input, Button, Checkbox } from 'antd';
 import './signup.css'
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
@@ -26,7 +26,7 @@ function Signup() {
                     email: values.email,
                     uid: user.uid
                 }).then(() => {
-
+                    message.success('Account created!');
                     navigate("/dashboard");
                     window.location.reload(false);
                 })
