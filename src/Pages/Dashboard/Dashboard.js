@@ -32,7 +32,7 @@ export default function Dashboard() {
     const [data, setData] = useState(' ');
 
     const currentUserInfo = useContext(CurrentUserContext);
-    console.log(currentUserInfo);
+    // console.log(currentUserInfo);
     console.log("dashboard");
 
     useEffect(() => {
@@ -41,7 +41,7 @@ export default function Dashboard() {
             //console.log("Current data: ", doc.data());
             const userInfo = doc.data();
             if (undefined ?? userInfo) { // nullish operator ??
-                console.log("if");
+                // console.log("if");
                 setData(userInfo);
             } else {
                 // loader...

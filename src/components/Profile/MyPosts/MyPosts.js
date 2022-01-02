@@ -1,9 +1,10 @@
 import React, { useContext, useState, useEffect } from 'react'
 import CurrentUserContext from '../../../ContextAPI/CurrentUserContext';
-import { Card, Avatar } from "antd";
-import { fireDB } from '../../../firebaseConfig';
-import { EditOutlined, EllipsisOutlined, SettingOutlined } from "@ant-design/icons";
-import {collection, onSnapshot, orderBy, query, where } from "firebase/firestore";
+import { Card, Avatar, Popconfirm } from "antd";
+import { fireDB, storage } from '../../../firebaseConfig';
+import { EditOutlined, EllipsisOutlined, SettingOutlined, DeleteOutlined } from "@ant-design/icons";
+import { collection, deleteDoc, doc, onSnapshot, orderBy, query, where } from "firebase/firestore";
+import { deleteObject, ref } from 'firebase/storage';
 
 
 export const MyPosts = () => {
@@ -28,6 +29,19 @@ export const MyPosts = () => {
         );
     }, []);
 
+    const confirm = (e) => {
+        deleteDoc(doc(fireDB, 'posts', `${e}`));
+        const desertRef = ref(storage, `posts/${e}`);
+
+        // Delete the file
+        deleteObject(desertRef).then(() => {
+            console.log('File deleted successfully')
+        }).catch((error) => {
+            // Uh-oh, an error occurred!
+            console.log(error)
+        });
+    }
+
     console.log(postsArr);
 
     return (
@@ -48,7 +62,14 @@ export const MyPosts = () => {
                                 actions={[
                                     <SettingOutlined key="setting" />,
                                     <EditOutlined key="edit" />,
-                                    <EllipsisOutlined key="ellipsis" />,
+                                    // Deleting the Posts
+                                    <Popconfirm
+                                        title="Are you sure to delete this Post?"
+                                        onConfirm={() => { confirm(elem.postUid) }}
+                                        onVisibleChange={() => console.log('visible change')}
+                                    >
+                                        <DeleteOutlined key="delete" onConfirm={confirm} />
+                                    </Popconfirm>,
                                 ]}
                             >
                                 <Meta

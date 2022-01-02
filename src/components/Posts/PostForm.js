@@ -1,9 +1,9 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { Collapse, Form, Input, Button, Upload } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { fireDB, storage } from '../../firebaseConfig';
-import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { collection, addDoc, serverTimestamp, setDoc, doc } from "firebase/firestore";
 import CurrentUserContext from './../../ContextAPI/CurrentUserContext';
 
 export const PostForm = () => {
@@ -12,25 +12,27 @@ export const PostForm = () => {
     // const storage = getStorage(db);
 
     const currentUserInfo = useContext(CurrentUserContext);
-    console.log(currentUserInfo);
+    console.log("posts form");
 
-    const dataHandler = async (values, downloadURL) => {
-        const docRef = await addDoc(collection(fireDB, "posts"), {
-
+    const dataHandler = async (values, downloadURL, fileName) => {
+        setDoc(doc(fireDB, "posts", `${fileName}`), {
             postedBy: currentUserInfo.uid,
             description: values.description,
             url: downloadURL,
-            admin: currentUserInfo.displayName,
+            admin: currentUserInfo.name,
+            postUid: fileName,
             adminProfile: currentUserInfo.profileUrl,
             time: serverTimestamp()
         })
-        console.log("Document written with ID: ", docRef.id);
+        // console.log("Document written with ID: ", docRef.id);
     }
 
     const onFinish = (values) => {
 
         const file = values.imageUrl[0].originFileObj;
-        const storageRef1 = ref(storage, `posts/${file.name}`);
+        const Random = new Date().getTime();
+
+        const storageRef1 = ref(storage, `posts/${Random}`);
         const uploadTask = uploadBytesResumable(storageRef1, file);
         uploadTask.on('state_changed',
             (snapshot) => {
@@ -45,8 +47,8 @@ export const PostForm = () => {
             () => {
                 getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
                     console.log('File available at', downloadURL);
-                    console.log(values);
-                    dataHandler(values, downloadURL); //  Handler putting data to firebase
+                    console.log(Random);
+                    dataHandler(values, downloadURL, Random); //  Handler putting data to firebase
                 });
             }
         );

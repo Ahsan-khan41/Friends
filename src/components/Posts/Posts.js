@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { Card, Avatar } from "antd";
+import { Card, Avatar, Popover, Button } from "antd";
 import { EditOutlined, EllipsisOutlined, SettingOutlined } from "@ant-design/icons";
 import { PostForm } from "./PostForm";
 import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
 import { fireDB } from "../../firebaseConfig";
 
+
 function Posts() {
   const { Meta } = Card;
   const [postsArr, setPostsArr] = useState([]);
-  
+
   useEffect(() => {
     let arr = [];
     onSnapshot(
@@ -18,13 +19,19 @@ function Posts() {
           //console.log(elem.data());
           arr.push(elem.data());
           setPostsArr(arr);
-          
+
         })
       }
     );
   }, []);
 
   // console.log(postsArr);
+
+  const content = (
+    <div>
+      <Button>Delete Post</Button>
+    </div>
+  );
 
   return (
     <>
@@ -45,7 +52,9 @@ function Posts() {
                 actions={[
                   <SettingOutlined key="setting" />,
                   <EditOutlined key="edit" />,
-                  <EllipsisOutlined key="ellipsis" />,
+                  <Popover content={content} trigger="click" >
+                    <EllipsisOutlined key="ellipsis" />
+                  </Popover>
                 ]}
               >
                 <Meta
