@@ -8,6 +8,8 @@ import CurrentUserContext from './../../ContextAPI/CurrentUserContext';
 
 export const PostForm = () => {
 
+    const [form] = Form.useForm();
+
     const { Panel } = Collapse;
     // const storage = getStorage(db);
 
@@ -29,6 +31,8 @@ export const PostForm = () => {
 
     const onFinish = (values) => {
 
+
+        form.resetFields();
         const file = values.imageUrl[0].originFileObj;
         const Random = new Date().getTime();
 
@@ -69,6 +73,10 @@ export const PostForm = () => {
         return e && e.fileList;
     };
 
+    const onReset = () => {
+        form.resetFields();
+    };
+
     return (
         <div>
             <div style={{ marginBottom: 30 }}>
@@ -106,7 +114,7 @@ export const PostForm = () => {
                             </Form.Item>
 
                             <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-                                <Button type="primary" htmlType="submit" >
+                                <Button type="primary" htmlType="submit" onClick={onReset} >
                                     Submit
                                 </Button>
                             </Form.Item>

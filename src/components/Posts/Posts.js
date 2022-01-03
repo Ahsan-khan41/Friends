@@ -11,16 +11,15 @@ function Posts() {
   const [postsArr, setPostsArr] = useState([]);
 
   useEffect(() => {
-    let arr = [];
     onSnapshot(
       query(collection(fireDB, "posts"), orderBy("time", "desc")),
       (doc) => {
+        let arr = [];
         doc.forEach((elem) => {
           //console.log(elem.data());
           arr.push(elem.data());
-          setPostsArr(arr);
-
         })
+        setPostsArr(arr);
       }
     );
   }, []);

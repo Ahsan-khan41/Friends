@@ -51,7 +51,7 @@ function App() {
       <CurrentUserContext.Provider value={currentUser}>
         {firebaseAuth && (
           <Routes>
-            <Route path="/dashboard" element={<Dashboard />} >
+            <Route path="/" element={<Dashboard />} >
               <Route path="posts" element={<Posts />} />
               <Route path="friends" element={<Friends />} />
               <Route path="profile" element={<Profile />} />

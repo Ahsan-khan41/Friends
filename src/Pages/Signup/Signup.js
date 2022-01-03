@@ -27,7 +27,7 @@ function Signup() {
                     uid: user.uid
                 }).then(() => {
                     message.success('Account created!');
-                    navigate("/dashboard");
+                    navigate("/");
                     window.location.reload(false);
                 })
 
