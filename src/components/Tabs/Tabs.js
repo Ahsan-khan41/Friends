@@ -6,6 +6,7 @@ import Posts from '../Posts/Posts';
 import { Friends } from '../Friends/Friends';
 import './Tabs.css';
 import { Link } from 'react-router-dom';
+import { PostCard } from '../PostCard/PostCard';
 
 
 export const Tabs = () => {

@@ -1,0 +1,18 @@
+.ant-card-body{
+    padding: 0;
+}
+
+.post-img{
+    width: 598px !important;
+    height: 411px !important;
+    /* margin-bottom: 20px !important; */
+    object-fit: cover;
+    object-position: center;
+}
+
+.post-card {
+    /* background-color: rgb(228, 228, 228) !important; */
+    width: 600px !important;
+    height: 100% !important;
+    margin-bottom: 20px;
+}

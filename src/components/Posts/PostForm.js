@@ -1,16 +1,17 @@
-import React, { useContext, useEffect } from 'react'
-import { Collapse, Form, Input, Button, Upload } from 'antd';
-import { UploadOutlined } from '@ant-design/icons';
+import React, { useContext } from 'react'
+import { Form, Input, Button, Upload } from 'antd';
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { fireDB, storage } from '../../firebaseConfig';
-import { collection, addDoc, serverTimestamp, setDoc, doc } from "firebase/firestore";
+import { serverTimestamp, setDoc, doc } from "firebase/firestore";
 import CurrentUserContext from './../../ContextAPI/CurrentUserContext';
+import "./Posts.css"
+
 
 export const PostForm = () => {
 
     const [form] = Form.useForm();
 
-    const { Panel } = Collapse;
+    const {TextArea} = Input;
     // const storage = getStorage(db);
 
     const currentUserInfo = useContext(CurrentUserContext);
@@ -31,7 +32,6 @@ export const PostForm = () => {
 
     const onFinish = (values) => {
 
-
         form.resetFields();
         const file = values.imageUrl[0].originFileObj;
         const Random = new Date().getTime();
@@ -50,8 +50,8 @@ export const PostForm = () => {
             },
             () => {
                 getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-                    console.log('File available at', downloadURL);
-                    console.log(Random);
+                    // console.log('File available at', downloadURL);
+                    // console.log(Random);
                     dataHandler(values, downloadURL, Random); //  Handler putting data to firebase
                 });
             }
@@ -80,47 +80,44 @@ export const PostForm = () => {
     return (
         <div>
             <div style={{ marginBottom: 30 }}>
-                <Collapse defaultActiveKey={['1']} >
-                    <Panel header="Create Post" key="1">
-                        <Form
-                            name="posts-form"
-                            labelCol={{ span: 8 }}
-                            wrapperCol={{ span: 8 }}
-                            initialValues={{ remember: true }}
-                            onFinish={onFinish}
-                            onFinishFailed={onFinishFailed}
-                            autoComplete="off"
+                    <Form
+                        name="posts-form"
+                        // labelCol={{ span: 6 }}
+                        wrapperCol={{ span: 24 }}
+                        initialValues={{ remember: true }}
+                        onFinish={onFinish}
+                        onFinishFailed={onFinishFailed}
+                        autoComplete="off"
+                        style={{textAlign: 'center'}}
+                    >
+                        <Form.Item
+                            // label="Description"
+                            name="description"
+                            rules={[{ required: true, message: 'Please input post description!' }]}
                         >
-                            <Form.Item
-                                label="Description"
-                                name="description"
-                                rules={[{ required: true, message: 'Please input post description!' }]}
-                            >
-                                <Input />
-                            </Form.Item>
+                            <TextArea rows={4} placeholder='Write caption...' />
+                        </Form.Item>
 
-                            <Form.Item
-                                wrapperCol={{ offset: 0, span: 24 }}
-                                name="imageUrl"
-                                label="Upload Image"
-                                valuePropName="fileList"
-                                getValueFromEvent={normFile}
-                                rules={[{ required: false }]}
-                            >
-                                <Upload name="post" listType="picture" accept="image/*" multiple={false}
-                                    maxCount={2}>
-                                    <Button icon={<UploadOutlined />}>Click to upload</Button>
-                                </Upload>
-                            </Form.Item>
+                        <Form.Item
+                            wrapperCol={{ offset: 0, span: 24 }}
+                            name="imageUrl"
+                            // label="Upload Image"
+                            valuePropName="fileList"
+                            getValueFromEvent={normFile}
+                            rules={[{ required: false }]}
+                        >
+                            <Upload name="post" listType="picture" accept="image/*" multiple={false}
+                                maxCount={2}>
+                                <Button type="primary" >Select form Computer</Button>
+                            </Upload>
+                        </Form.Item>
 
-                            <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-                                <Button type="primary" htmlType="submit" onClick={onReset} >
-                                    Submit
-                                </Button>
-                            </Form.Item>
-                        </Form>
-                    </Panel>
-                </Collapse>
+                        <Form.Item wrapperCol={{ span: 24 }}>
+                            <Button type="primary" htmlType="submit" onClick={onReset} >
+                                Submit
+                            </Button>
+                        </Form.Item>
+                    </Form>
             </div>
         </div>
     )

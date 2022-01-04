@@ -51,11 +51,11 @@ function App() {
       <CurrentUserContext.Provider value={currentUser}>
         {firebaseAuth && (
           <Routes>
-            <Route path="/" element={<Dashboard />} >
-              <Route path="posts" element={<Posts />} />
-              <Route path="friends" element={<Friends />} />
-              <Route path="profile" element={<Profile />} />
-            </Route>
+            
+              <Route path="/" element={<Posts />} />
+              <Route path="/friends" element={<Friends />} />
+              <Route path="/profile" element={<Profile />} />
+           
           </Routes>
         )}
       </CurrentUserContext.Provider>

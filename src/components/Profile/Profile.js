@@ -8,6 +8,7 @@ import './Profile.css'
 import { ProfilePicUpload } from './ProfilePicUpload/ProfilePicUpload';
 import Avatar from 'antd/lib/avatar/avatar';
 import { MyPosts } from './MyPosts/MyPosts';
+import Dashboard from '../../Pages/Dashboard/Dashboard';
 
 
 
@@ -44,7 +45,9 @@ export default function Profile() {
 
     }, [currentUserInfo])
 
-    return (<>
+    return (
+    <>
+    <Dashboard />
         <div style={{ display: 'flex', justifyContent: 'center', textAlign: 'center', marginTop: '40px' }}>
             {/* Profile Pic & Modal/Popover */}
             <div style={{ display: 'inline-block', marginTop: 15 }}>

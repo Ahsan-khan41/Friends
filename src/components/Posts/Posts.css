@@ -1,3 +1,7 @@
-.ant-card.cover{
-    
+.ant-upload-list-picture{
+    border: #13e511;
+}
+
+.ant-upload-list-item-name{
+    color: #13e511;
 }

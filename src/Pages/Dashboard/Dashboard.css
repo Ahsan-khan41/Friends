@@ -1,15 +1,19 @@
 #components-layout-demo-fixed .logo {
-   
-    background: rgba(255, 255, 255, 0.2);
+    background: #9b3737;
 }
 
 .site-layout .site-layout-background {
-    background:#f0f2f5;
+    background: none;
     border-radius: 10px ;
 }
 
+.ant-layout{
+    background-color: none;
+    background: #fafafa;
+}
+
 .menu {
-    background: rgba(255, 255, 255, 0.7);
+    background: rgba(83, 38, 38, 0.7);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -20,6 +24,8 @@
 
 .ant-layout-header {
     margin-bottom: 20px;
+    border-bottom: 1px solid rgba(219,219,219);
+    height: 60px;
 }
 
 .ant-tabs-nav-wrap{
@@ -28,3 +34,16 @@
     padding: 5px
 }
 
+.ant-input-affix-wrapper-lg{
+    padding: 3px 12px;
+    background-color: #fafafa;
+    width: 268px;
+}
+
+.ant-input-lg{
+    background-color: #fafafa;
+}
+
+.ant-popover-inner-content{
+    padding: 0%;
+}

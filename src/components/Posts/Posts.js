@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Card, Avatar, Popover, Button } from "antd";
-import { EditOutlined, EllipsisOutlined, SettingOutlined } from "@ant-design/icons";
 import { PostForm } from "./PostForm";
 import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
 import { fireDB } from "../../firebaseConfig";
+import { PostCard } from "../PostCard/PostCard";
+import Dashboard from "../../Pages/Dashboard/Dashboard";
 
 
 function Posts() {
-  const { Meta } = Card;
+
   const [postsArr, setPostsArr] = useState([]);
 
   useEffect(() => {
@@ -23,45 +23,20 @@ function Posts() {
       }
     );
   }, []);
-
   // console.log(postsArr);
-
-  const content = (
-    <div>
-      <Button>Delete Post</Button>
-    </div>
-  );
 
   return (
     <>
-      <div>
-        <PostForm />
+    <Dashboard />
+      <div style={{backgroundColor: '#fafafa'}}>
         <div id="posts">
           {postsArr.map((elem, index) => {
             return (
-              <Card
-                key={index}
-                style={{
-                  width: "50%",
-                  margin: "auto",
-                  marginBottom: 20,
-                  borderRadius: "20px",
-                }}
-                cover={<img alt="example" src={elem.url} />}
-                actions={[
-                  <SettingOutlined key="setting" />,
-                  <EditOutlined key="edit" />,
-                  <Popover content={content} trigger="click" >
-                    <EllipsisOutlined key="ellipsis" />
-                  </Popover>
-                ]}
-              >
-                <Meta
-                  avatar={<Avatar src={elem.adminProfile} />}
-                  title={elem.admin}
-                  description={elem.description}
-                />
-              </Card>
+              <PostCard
+                adminProfile={elem.adminProfile}
+                adminName={elem.admin}
+                postUrl={elem.url}
+                description={elem.description} />
             );
           })}
         </div>
