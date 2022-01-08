@@ -4,6 +4,9 @@ import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
 import { fireDB } from "../../firebaseConfig";
 import { PostCard } from "../PostCard/PostCard";
 import Dashboard from "../../Pages/Dashboard/Dashboard";
+import moment from "moment";
+import "./Posts.css"
+
 
 
 function Posts() {
@@ -27,16 +30,18 @@ function Posts() {
 
   return (
     <>
-    <Dashboard />
-      <div style={{backgroundColor: '#fafafa'}}>
+      <Dashboard />
+      <div style={{ backgroundColor: '#fafafa' }}>
         <div id="posts">
           {postsArr.map((elem, index) => {
             return (
               <PostCard
+                key={ index }
                 adminProfile={elem.adminProfile}
                 adminName={elem.admin}
                 postUrl={elem.url}
-                description={elem.description} />
+                description={elem.description}
+                timestamp={moment(elem.time.toDate()).fromNow()} />
             );
           })}
         </div>

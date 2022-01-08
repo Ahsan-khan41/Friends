@@ -1,15 +1,11 @@
-#components-layout-demo-fixed .logo {
-    background: #9b3737;
-}
-
 .site-layout .site-layout-background {
     background: none;
     border-radius: 10px ;
 }
 
 .ant-layout{
-    background-color: none;
-    background: #fafafa;
+    background-color: #fafafa;
+    /* background: none; */
 }
 
 .menu {
@@ -35,13 +31,15 @@
 }
 
 .ant-input-affix-wrapper-lg{
-    padding: 3px 12px;
-    background-color: #fafafa;
+    padding: 5px 12px;
+    background-color: #efefef;
     width: 268px;
+    border: none;
+    border-radius: 7px;
 }
 
 .ant-input-lg{
-    background-color: #fafafa;
+    background-color: #efefef;
 }
 
 .ant-popover-inner-content{

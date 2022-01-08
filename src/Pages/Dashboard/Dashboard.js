@@ -1,11 +1,9 @@
-import React, { useState, useContext, useEffect } from 'react';
-import { Button, Divider, Layout, Popover, Input, Avatar, Modal } from 'antd';
+import React, { useState, useContext } from 'react';
+import { Divider, Layout, Popover, Input, Avatar, Modal } from 'antd';
 import Logo from '../../Icons/Logo.svg';
 import { getAuth, signOut } from "firebase/auth";
 import { useNavigate, Link } from 'react-router-dom';
 import CurrentUserContext from './../../ContextAPI/CurrentUserContext';
-import { doc, onSnapshot } from "firebase/firestore";
-import { fireDB } from '../../firebaseConfig';
 import './Dashboard.css'
 import { HomeOutlined, AppstoreAddOutlined, MessageOutlined, HeartOutlined, CompassOutlined, SearchOutlined, UserOutlined, SyncOutlined, BookOutlined, SettingOutlined } from "@ant-design/icons";
 import { PostForm } from '../../components/Posts/PostForm';
@@ -30,27 +28,26 @@ export default function Dashboard() {
 
     const [postModalVisible, setPostModalVisible] = useState(false)
 
-    const [data, setData] = useState(' ');
 
     const currentUserInfo = useContext(CurrentUserContext);
     // console.log(currentUserInfo);
     console.log("dashboard");
 
-    useEffect(() => {
+    // useEffect(() => {
 
-        onSnapshot(doc(fireDB, "users", `${currentUserInfo.uid}`), (doc) => {
-            //console.log("Current data: ", doc.data());
-            const userInfo = doc.data();
-            if (undefined ?? userInfo) { // nullish operator ??
-                // console.log("if");
-                setData(userInfo);
-            } else {
-                // loader...
-            }
+    //     onSnapshot(doc(fireDB, "users", `${currentUserInfo.uid}`), (doc) => {
+    //         //console.log("Current data: ", doc.data());
+    //         const userInfo = doc.data();
+    //         if (undefined ?? userInfo) { // nullish operator ??
+    //             // console.log("if");
+    //             setData(userInfo);
+    //         } else {
+    //             // loader...
+    //         }
 
-        });
+    //     });
 
-    }, [currentUserInfo])
+    // }, [currentUserInfo])
 
 
     const content = (
@@ -65,7 +62,7 @@ export default function Dashboard() {
             <Divider />
             <Button style={{ borderRadius: 5 }} onClick={signOutFunc}>Sign out</Button> */}
 
-            <div style={{padding: "8px 16px"}}><UserOutlined style={{ color: "rgb(38, 38, 38)", fontSize: 18, marginRight: 10 }} /> Profile</div>
+            <div style={{padding: "8px 16px"}}><Link to={"/profile"}><UserOutlined style={{ color: "rgb(38, 38, 38)", fontSize: 18, marginRight: 10 }} /> Profile</Link></div>
             <div style={{padding: "8px 16px"}}><BookOutlined style={{ color: "rgb(38, 38, 38)", fontSize: 18, marginRight: 10 }} /> Saved</div>
             <div style={{padding: "8px 16px"}}><SettingOutlined style={{ color: "rgb(38, 38, 38)", fontSize: 18, marginRight: 10 }} />Setting</div>
             <div style={{padding: "8px 16px"}}><SyncOutlined style={{ color: "rgb(38, 38, 38)", fontSize: 18, marginRight: 10 }} /> Accounts</div>
@@ -75,7 +72,7 @@ export default function Dashboard() {
     );
 
 
-    const { Header, Content, Footer } = Layout;
+    const { Header} = Layout;
 
     return (
         <>
@@ -84,12 +81,10 @@ export default function Dashboard() {
                     <div className="logo" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: 975, height: 60, padding: "0px 20px" }} >
                         <span><img src={Logo} alt='friends-logo' style={{ width: 130 }} /></span>
                         <span style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
-                            <Input size="large" placeholder="Search" prefix={<SearchOutlined style={{ color: '#8e8e8e', fontSize: 13, marginRight: 5 }} />} />
+                            <Input size="large" placeholder="Search" style={{color: '#efefef'}} prefix={<SearchOutlined style={{ color: '#8e8e8e', fontSize: 13, marginRight: 5 }} />} />
                         </span>
                         <span style={{ display: 'flex', alignItems: 'center' }}>
-                            <Link to="/">
-                                <HomeOutlined style={{ color: "rgb(38, 38, 38)", fontSize: 25 }} />
-                            </Link>
+                            <Link to="/" style={{ paddingTop: 7 }}><HomeOutlined style={{ color: "rgb(38, 38, 38)", fontSize: 25 }} /></Link>
                             <MessageOutlined style={{ color: "rgb(38, 38, 38)", fontSize: 25, paddingLeft: 24 }} />
                             <AppstoreAddOutlined onClick={() => setPostModalVisible(true)} style={{ color: "rgb(38, 38, 38)", fontSize: 25, paddingLeft: 24 }} />
                             <CompassOutlined style={{ color: "rgb(38, 38, 38)", fontSize: 25, paddingLeft: 24 }} />

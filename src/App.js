@@ -10,7 +10,6 @@ import { Friends } from './components/Friends/Friends';
 import Profile from './components/Profile/Profile';
 import Signup from './Pages/Signup/Signup';
 import Login from './Pages/Login/Login';
-import Dashboard from './Pages/Dashboard/Dashboard';
 
 
 function App() {
@@ -51,7 +50,6 @@ function App() {
       <CurrentUserContext.Provider value={currentUser}>
         {firebaseAuth && (
           <Routes>
-            
               <Route path="/" element={<Posts />} />
               <Route path="/friends" element={<Friends />} />
               <Route path="/profile" element={<Profile />} />

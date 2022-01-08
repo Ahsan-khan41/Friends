@@ -1,0 +1,74 @@
+.ant-card-body{
+    padding: 0;
+}
+
+.post-img{
+    width: 598px !important;
+    height: 411px !important;
+    /* margin-bottom: 20px !important; */
+    object-fit: cover;
+    object-position: center;
+}
+
+.mypost-card {
+    /* background-color: rgb(228, 228, 228) !important; */
+    width: 430px !important;
+    height: 100% !important;
+}
+
+.ant-modal{
+    width: 830px !important;
+}
+.ant-modal-body{
+    background-color: none !important;
+    padding: 0px !important;
+}
+
+.ant-modal-footer{
+    /* padding: 0px !important; */
+    display: none;
+}
+.main-post-div{
+    height: 373px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    
+}
+
+.ant-card-bordered {
+    border: none; 
+}
+
+.ant-modal-close-x{
+    display: none;
+}
+
+.myPost-img{
+    object-fit: cover;
+  width: 293px;
+  height: 293px;
+}
+
+#myposts{
+    width: 975px;
+    /* padding-left: 30px; */
+    display: flex;
+    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(3,1.2fr);
+    grid-auto-rows: 45%;
+    grid-column-gap: 0x;
+    grid-row-gap: 42px;
+    margin-bottom: 80px;
+}
+
+#bottom-tabs-panel-1{
+    display: flex;
+    justify-content: center;
+}
+
+#bottom-tabs{
+    background-color: #fafafa;
+
+}
