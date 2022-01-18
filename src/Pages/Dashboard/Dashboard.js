@@ -54,7 +54,9 @@ export default function Dashboard() {
             <Layout>
                 <Header style={{ background: '#fff', zIndex: 1, width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     <div className="logo" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: 975, height: 60, padding: "0px 20px" }} >
-                        <span><img src={Logo} alt='friends-logo' style={{ width: 130 }} /></span>
+                        <span><img src={Logo} alt='friends-logo' style={{ width: 40 }} />
+                            <span style={{fontSize: 20, fontWeight: 700, marginLeft: 10}}>Friends App</span>
+                        </span>
                         <span style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
                             <Input size="large" placeholder="Search" style={{ color: '#efefef' }} prefix={<SearchOutlined style={{ color: '#8e8e8e', fontSize: 13, marginRight: 5 }} />} />
                         </span>
@@ -79,7 +81,7 @@ export default function Dashboard() {
                         onOk={() => setPostModalVisible(true)}
                         onCancel={() => setPostModalVisible(false)}
                     >
-                        <PostForm closeModal={closeModal}/>
+                        <PostForm closeModal={closeModal} />
                     </Modal>
 
                 </Header>
