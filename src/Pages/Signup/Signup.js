@@ -1,6 +1,5 @@
 import React from 'react';
-import { Row, Col, message } from 'antd';
-import { Form, Input, Button, Checkbox } from 'antd';
+import { Form, Input, Button, Row, Col, message } from 'antd';
 import './signup.css'
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { useNavigate, Link } from 'react-router-dom';
@@ -14,7 +13,6 @@ function Signup() {
 
     const onFinish = (values) => {
 
-        console.log(values);
         createUserWithEmailAndPassword(auth, values.email, values.password)
             .then((userCredential) => {
                 // Signed in
@@ -30,7 +28,7 @@ function Signup() {
                     navigate("/");
                     window.location.reload(false);
                 })
-
+                localStorage.setItem('email', values.email);
             })
             .catch((error) => {
                 console.log('error: ', error);
@@ -62,11 +60,12 @@ function Signup() {
                         onFinishFailed={onFinishFailed}
                         autoComplete="off"
                     >
-                        <h1 className="heading">Signup</h1>
+                        <h1 className="heading">Create New Account</h1>
 
                         <Form.Item
                             label="Username"
                             name="username"
+                            htmlType="text"
                             rules={[
                                 {
                                     required: true,
@@ -101,17 +100,6 @@ function Signup() {
                             ]}
                         >
                             <Input.Password />
-                        </Form.Item>
-
-                        <Form.Item
-                            name="remember"
-                            valuePropName="checked"
-                            wrapperCol={{
-                                offset: 9,
-                                span: 18,
-                            }}
-                        >
-                            <Checkbox>Remember me</Checkbox>
                         </Form.Item>
 
                         <Form.Item

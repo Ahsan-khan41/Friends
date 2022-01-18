@@ -28,7 +28,6 @@ function App() {
         onSnapshot(doc(fireDB, "users", `${user.uid}`), (doc) => {
           setCurrentUser(doc.data());
         });
-        console.log("app.js");
       }
       else {
         setFirebaseAuth(false);
@@ -57,10 +56,6 @@ function App() {
           </Routes>
         )}
       </CurrentUserContext.Provider>
-
-      {/* <Routes>
-        <Route path="*" element={<Navigate to={firebaseAuth ? "/dashboard" : "/login"} />} />
-      </Routes> */}
     </div>
   );
 }

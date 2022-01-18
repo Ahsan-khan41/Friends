@@ -19,14 +19,12 @@ function Posts() {
       (doc) => {
         let arr = [];
         doc.forEach((elem) => {
-          //console.log(elem.data());
           arr.push(elem.data());
         })
         setPostsArr(arr);
       }
     );
   }, []);
-  // console.log(postsArr);
 
   return (
     <>
@@ -34,7 +32,7 @@ function Posts() {
       <div style={{ backgroundColor: '#fafafa' }}>
         <div id="posts">
           {postsArr.map((elem, index) => {
-            return (
+            return (elem.time) && (
               <PostCard
                 key={ index }
                 adminProfile={elem.adminProfile}

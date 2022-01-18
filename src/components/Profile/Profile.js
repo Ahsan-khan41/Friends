@@ -30,7 +30,8 @@ export default function Profile() {
     const [userName, setUserName] = useState();
 
     const currentUserInfo = useContext(CurrentUserContext);
-    // console.log(currentUserInfo);
+
+    const usermail = localStorage.getItem('email');
 
     useEffect(() => {
 
@@ -52,7 +53,8 @@ export default function Profile() {
             <div style={{ display: 'flex', justifyContent: 'center', textAlign: 'center', paddingTop: '10px', backgroundColor: '#fafafa' }}>
                 {/* Profile Pic & Modal/Popover */}
                 <div style={{ display: 'inline-block', marginTop: 15 }}>
-                    <Avatar src={currentUserInfo.profileUrl} size={170} />
+                   {currentUserInfo.profileUrl ? <Avatar src={currentUserInfo.profileUrl} size={170} /> : 
+                   <Avatar style={{color: '#f56a00', backgroundColor: '#fde3cf', fontSize: 60, userSelect: 'none'}}  size={170}>{usermail[0]}</Avatar>}
                     <Popover content={content} trigger="click">
                         <span style={{ position: "relative", left: -60, top: 70 }}>
                             <Button style={{ height: 48, width: 48, borderRadius: '50%' }}>

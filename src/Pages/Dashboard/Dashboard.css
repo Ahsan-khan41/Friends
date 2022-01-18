@@ -45,3 +45,7 @@
 .ant-popover-inner-content{
     padding: 0%;
 }
+
+.ant-avatar-string{
+    padding-bottom: 5px;
+}

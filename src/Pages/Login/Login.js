@@ -1,6 +1,6 @@
 import React from 'react';
 import { Row, Col } from 'antd';
-import { Form, Input, Button, Checkbox } from 'antd';
+import { Form, Input, Button, message } from 'antd';
 import './login.css'
 import { useNavigate, Link } from 'react-router-dom';
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
@@ -8,6 +8,7 @@ import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 function Login() {
 
     let navigate = useNavigate();
+    let errorMessage;
 
     const loginUserFunc = (values) => {
         const auth = getAuth();
@@ -15,18 +16,16 @@ function Login() {
             .then((userCredential) => {
                 // Signed in 
                 const user = userCredential.user;
-                console.log(user);
+                localStorage.setItem('email', values.email);
                 navigate("/");
-                // ...
             })
             .catch((error) => {
                 const errorMessage = error.message;
-                console.log(errorMessage);
+                message.error(errorMessage);
             });
     }
 
     const onFinish = (values) => {
-        console.log('Success:', values);
         loginUserFunc(values);
     };
 
@@ -53,11 +52,12 @@ function Login() {
                         onFinishFailed={onFinishFailed}
                         autoComplete="off"
                     >
-                        <h1 className="heading">Login</h1>
+                        <h1 className="heading">Login to Friends App</h1>
+                        <p>{errorMessage}</p>
 
                         <Form.Item
                             label="Email"
-                            name="email"
+                            name="email"    
                             rules={[
                                 {
                                     required: true,
@@ -82,24 +82,13 @@ function Login() {
                         </Form.Item>
 
                         <Form.Item
-                            name="remember"
-                            valuePropName="checked"
-                            wrapperCol={{
-                                offset: 9,
-                                span: 18,
-                            }}
-                        >
-                            <Checkbox>Remember me</Checkbox>
-                        </Form.Item>
-
-                        <Form.Item
                             wrapperCol={{
                                 offset: 9,
                                 span: 18,
                             }}
                         >
                             <Button type="primary" htmlType="submit">
-                                Submit
+                                Login
                             </Button>
                             <Button style={{marginLeft: 30}}>
                             <Link to="/">SignUp</Link>

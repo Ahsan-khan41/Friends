@@ -29,24 +29,6 @@ export const MyPosts = () => {
         );
     }, []);
 
-    // const confirm = (e) => {
-    //     deleteDoc(doc(fireDB, 'posts', `${e}`));
-    //     const desertRef = ref(storage, `posts/${e}`);
-
-    //     console.log(desertRef);
-
-    //     // Delete the file
-    //     deleteObject(desertRef).then(() => {
-    //         console.log('File deleted successfully');
-    //         <Alert message="Post Deleted Successfully!" type="success" />
-    //     }).catch((error) => {
-    //         // Uh-oh, an error occurred!
-    //         console.log(error)
-    //     });
-    // }
-
-    console.log(postsArr);
-
     return (
         <div>
             <div>
@@ -59,7 +41,7 @@ export const MyPosts = () => {
                                 admin={elem.admin}
                                 url={elem.url}
                                 description={elem.description}
-                                time={moment(elem.time.toDate()).fromNow()}
+                                time={moment(elem.time.toDate()).fromNow()} 
                             />
                         );
                     })}
