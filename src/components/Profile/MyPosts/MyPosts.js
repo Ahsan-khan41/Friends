@@ -1,5 +1,4 @@
 import React, { useState, useContext, useEffect } from 'react'
-import { Modal, Divider, Space } from 'antd';
 import './MyPosts.css'
 import CurrentUserContext from '../../../ContextAPI/CurrentUserContext';
 // import { Card, Avatar } from "antd";

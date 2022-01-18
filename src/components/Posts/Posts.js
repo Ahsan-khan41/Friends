@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { PostForm } from "./PostForm";
 import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
 import { fireDB } from "../../firebaseConfig";
 import { PostCard } from "../PostCard/PostCard";

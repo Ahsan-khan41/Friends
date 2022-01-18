@@ -15,7 +15,7 @@ function Login() {
         signInWithEmailAndPassword(auth, values.email, values.password)
             .then((userCredential) => {
                 // Signed in 
-                const user = userCredential.user;
+                // const user = userCredential.user;
                 localStorage.setItem('email', values.email);
                 navigate("/");
             })
