@@ -1,5 +1,15 @@
 import React from "react";
-import { Form, Input, Button, Row, Col, message, Space } from "antd";
+import {
+  Form,
+  Input,
+  Button,
+  Row,
+  Col,
+  message,
+  Space,
+  notification,
+  Alert,
+} from "antd";
 import "./signup.css";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { useNavigate, Link } from "react-router-dom";
@@ -7,12 +17,13 @@ import { setDoc, doc } from "firebase/firestore";
 import { fireDB } from "../../firebaseConfig";
 
 function Signup() {
+
+
   const auth = getAuth();
   let navigate = useNavigate();
 
-  const onFinish = (values) => {
-    message.info("This is an error ");
-    createUserWithEmailAndPassword(auth, values.email, values.password)
+  const onFinish = async(values) => {
+    await createUserWithEmailAndPassword(auth, values.email, values.password)
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
@@ -30,17 +41,14 @@ function Signup() {
         localStorage.setItem("email", values.email);
       })
       .catch((error) => {
-        console.log("error: ", error);
-        message.error("This is an error message");
+        console.log("error: ", error.message);
+        alert(error.message);
       });
   };
 
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
-  };
-
-  const info = () => {
-    message.info("This is an error message");
+    alert(errorInfo.message);
   };
 
   return (
