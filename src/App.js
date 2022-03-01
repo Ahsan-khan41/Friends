@@ -8,6 +8,7 @@ import { Route, Routes } from 'react-router-dom';
 import Posts from './components/Posts/Posts';
 import { Friends } from './components/Friends/Friends';
 import Profile from './components/Profile/Profile';
+import User from './Pages/UserPage/User';
 import Signup from './Pages/Signup/Signup';
 import Login from './Pages/Login/Login';
 
@@ -52,7 +53,7 @@ function App() {
               <Route path="/" element={<Posts />} />
               <Route path="/friends" element={<Friends />} />
               <Route path="/profile" element={<Profile />} />
-           
+              <Route path="/user/:uid" element={<User />} />
           </Routes>
         )}
       </CurrentUserContext.Provider>

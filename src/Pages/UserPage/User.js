@@ -4,36 +4,32 @@ import { fireDB } from "../../firebaseConfig";
 import CurrentUserContext from "../../ContextAPI/CurrentUserContext";
 import { Divider, Tabs, Button, Popover } from "antd";
 import { CameraOutlined, UserOutlined } from "@ant-design/icons";
-import "./Profile.css";
-import { ProfilePicUpload } from "./ProfilePicUpload/ProfilePicUpload";
+import "./User.css";
+import { ProfilePicUpload } from "../../components/Profile/ProfilePicUpload/ProfilePicUpload";
 import Avatar from "antd/lib/avatar/avatar";
-import Dashboard from "../../Pages/Dashboard/Dashboard";
-// import { MyPosts2 } from './MyPosts/MyPosts'
-import { MyPosts } from "./MyPosts/MyPosts";
-import { Setting } from "../Setting/Setting";
+import Dashboard from "../Dashboard/Dashboard";
+import { useParams } from "react-router-dom";
+import { UsersPosts } from "../../components/UsersPosts/UsersPosts";
 
 export default function Profile() {
-  const [userName, setUserName] = useState();
+  let { uid } = useParams();
+
+  console.log(uid);
+
+  const [userData, setUserData] = useState({});
   const [postsLength, setPostsLength] = useState();
-  const currentUserInfo = useContext(CurrentUserContext);
-  useEffect(() => {
-    onSnapshot(doc(fireDB, "users", `${currentUserInfo.uid}`), (doc) => {
+
+  useEffect(async () => {
+    await onSnapshot(doc(fireDB, "users", `${uid}`), (doc) => {
       const data = doc.data();
       if (undefined ?? data) {
         // nullish operator ??
-        // console.log("if");
-        setUserName(data.name);
+        setUserData(data);
       } else {
         // console.log("else");
       }
     });
-  }, [currentUserInfo]);
-
-  const content = (
-    <div style={{ textAlign: "center", maxWidth: "300px", padding: "20px" }}>
-      <ProfilePicUpload pic={"profile"} />
-    </div>
-  );
+  }, [uid]);
 
   const { TabPane } = Tabs;
 
@@ -46,7 +42,8 @@ export default function Profile() {
   const getPostsLength = (postsArr) => {
     setPostsLength(postsArr.length);
   };
-  // console.log(postsLength);
+
+  console.log(userData);
 
   return (
     <>
@@ -62,18 +59,11 @@ export default function Profile() {
       >
         {/* Profile Pic & Modal/Popover */}
         <div style={{ display: "inline-block", marginTop: 15 }}>
-          {currentUserInfo.profileUrl ? (
-            <Avatar src={currentUserInfo.profileUrl} size={170} />
+          {userData.profileUrl ? (
+            <Avatar src={userData.profileUrl} size={170} />
           ) : (
             <Avatar style={{ backgroundColor: '#87d068' }} icon={<UserOutlined />} size={170} />
           )}
-          <Popover content={content} trigger="click">
-            <span style={{ position: "relative", left: -60, top: 70 }}>
-              <Button style={{ height: 48, width: 48, borderRadius: "50%" }}>
-                <CameraOutlined />
-              </Button>
-            </span>
-          </Popover>
         </div>
 
         <div
@@ -84,7 +74,7 @@ export default function Profile() {
             maxWidth: "350px",
           }}
         >
-          <p style={{ fontSize: "35px" }}>{userName}</p>
+          <p style={{ fontSize: "35px" }}>{userData.name}</p>
           <span style={{ fontSize: "15px" }}>
             <b>{postsLength} </b>Posts
           </span>
@@ -102,10 +92,7 @@ export default function Profile() {
       {/* <Divider style={{ margin: 5 }} /> */}
       <Tabs id="bottom-tabs" defaultActiveKey="1" onChange={callback}>
         <TabPane tab="Posts" key="1">
-          <MyPosts getPostsLength={getPostsLength} uid={currentUserInfo.uid} />
-        </TabPane>
-        <TabPane tab="Setting" key="2">
-          <Setting />
+          <UsersPosts getPostsLength={getPostsLength} uid={uid} />
         </TabPane>
       </Tabs>
     </>

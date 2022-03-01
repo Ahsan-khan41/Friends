@@ -1,18 +1,15 @@
 import React, { useState, useContext, useEffect } from 'react'
-import './MyPosts.css'
-import CurrentUserContext from '../../../ContextAPI/CurrentUserContext';
+import CurrentUserContext from '../../ContextAPI/CurrentUserContext';
 // import { Card, Avatar } from "antd";
-import { fireDB } from '../../../firebaseConfig';
+import { fireDB } from '../../firebaseConfig';
 // import { HeartOutlined, MessageOutlined, SendOutlined, EllipsisOutlined } from "@ant-design/icons";
 import { collection, onSnapshot, orderBy, query, where } from "firebase/firestore";
-import { MyPostsCard } from './MyPostsCard';
+import {UsersPostsCard} from './UsersPostsCard/UsersPostsCard';
 import moment from 'moment';
 
 
-export const MyPosts = ({getPostsLength , uid}) => {
+export const UsersPosts = ({getPostsLength , uid}) => {
 
-    const currentUserInfo = useContext(CurrentUserContext);
-    // console.log(currentUserInfo);
     const [postsArr, setPostsArr] = useState([]);
 
     useEffect(() => {
@@ -27,14 +24,14 @@ export const MyPosts = ({getPostsLength , uid}) => {
                 getPostsLength(arr); // providing length to parent component
             }
         );
-    }, [currentUserInfo]);
+    }, [uid]);
     return (
         <div>
             <div>
                 <div id="myposts">
                     {postsArr.map((elem, index) => {
                         return (
-                            <MyPostsCard
+                            <UsersPostsCard
                                 key={index}
                                 adminProfile={elem.adminProfile}
                                 admin={elem.admin}
